@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Checkout
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Order Summary</h2>
+  <div id="order-summary" class="mb-4">
+    <h3>Items</h3>
+    <!-- Order items will be dynamically added here -->
+  </div>
+  <div class="total-price mb-4">
+    <h3>Total Price: $<span id="total-price">0.00</span></h3>
+  </div>
+  <div class="checkout-actions">
+    <button class="btn btn-primary" onclick="processPayment()">Pay Now</button>
+    <button class="btn btn-secondary" onclick="cancelOrder()">Cancel</button>
+  </div>
+</div>
+
+<script>
+  // Fetch order items from localStorage
+  const orderItems = JSON.parse(localStorage.getItem('orderItems')) || [];
+  const orderSummaryContainer = document.getElementById('order-summary');
+  let totalPrice = 0;
+
+  orderItems.forEach(item => {
+    const orderItem = document.createElement('div');
+    orderItem.className = 'order-item';
+    orderItem.innerHTML = `
+      <div class="order-item-image">
+        <img src="${item.image}" alt="${item.name}">
+      </div>
+      <div class="order-item-details">
+        <p>ID: ${item.id}</p>
+        <p>${item.name} - $${item.price.toFixed(2)}</p>
+      </div>
+    `;
+    orderSummaryContainer.appendChild(orderItem);
+    totalPrice += item.price;
+  });
+
+  document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+
+  // Function to handle payment processing
+  function processPayment() {
+    alert('Payment processed successfully!');
+    localStorage.removeItem('orderItems');
+    window.location.href = "{{ url_for('home') }}";
+  }
+
+  // Function to handle order cancellation
+  function cancelOrder() {
+    localStorage.removeItem('orderItems');
+    alert('Order cancelled.');
+    window.location.href = "{{ url_for('home') }}";
+  }
+</script>
+
+<style>
+  .container {
+    max-width: 800px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .order-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  .order-item-image img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 10px;
+  }
+  .checkout-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  .btn-primary {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  .btn-secondary {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+</style>
+{% endblock %}

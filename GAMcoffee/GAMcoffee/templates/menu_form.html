@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if item %}Edit Menu{% else %}Create New Menu{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">{% if item %}Edit Menu Item{% else %}Create a New Menu Item{% endif %}</h1>
+
+  <!-- Important: enctype="multipart/form-data" for file uploads -->
+  <form action="{% if item %}{{ url_for('edit_menu', item_id=item.id) }}{% else %}{{ url_for('add_menu') }}{% endif %}" method="POST" enctype="multipart/form-data">
+    {% if item %}
+      <div class="mb-3">
+        <label for="id" class="form-label">ID</label>
+        <input type="text" class="form-control" id="id" name="id" value="{{ item.id }}" readonly>
+      </div>
+    {% endif %}
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" name="name" value="{% if item %}{{ item.name }}{% endif %}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input type="number" step="0.01" class="form-control" id="price" name="price" value="{% if item %}{{ item.price }}{% endif %}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea class="form-control" id="description" name="description" rows="3" required>{% if item %}{{ item.description }}{% endif %}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Image</label>
+      <input type="file" class="form-control" id="image" name="image" {% if not item %}required{% endif %}>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{% if item %}Update{% else %}Create{% endif %}</button>
+  </form>
+</div>
+
+<style>
+  .container {
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  .form-label {
+    font-weight: bold;
+    color: #555;
+  }
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+</style>
+{% endblock %}

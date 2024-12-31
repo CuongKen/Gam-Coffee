@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Your Order
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Your Order</h2>
+  <div id="order-list" class="mb-4">
+    <h3>Order List</h3>
+    <!-- Order items will be dynamically added here -->
+  </div>
+  <div class="order-actions">
+    <button class="btn btn-primary" onclick="proceedToCheckout()">Checkout</button>
+    <button class="btn btn-secondary" onclick="cancelOrder()">Cancel</button>
+  </div>
+</div>
+
+<script>
+  // Fetch order summary from localStorage or server
+  const orderSummary = JSON.parse(localStorage.getItem('orderSummary')) || [];
+  const orderListContainer = document.getElementById('order-list');
+  orderSummary.forEach(item => {
+    const orderItem = document.createElement('div');
+    orderItem.className = 'order-item';
+    orderItem.innerHTML = `
+      <div class="order-item-image">
+        <img src="${item.image}" alt="${item.name}">
+      </div>
+      <div class="order-item-details">
+        <p>${item.name} - $${item.price.toFixed(2)}</p>
+      </div>
+    `;
+    orderListContainer.appendChild(orderItem);
+  });
+
+  // Function to handle checkout
+  function proceedToCheckout() {
+    window.location.href = "{{ url_for('checkout') }}";
+  }
+
+  // Function to handle order cancellation
+  function cancelOrder() {
+    const orderList = document.getElementById('order-list');
+    orderList.innerHTML = '';
+    localStorage.removeItem('orderSummary');
+    alert('Order cancelled.');
+  }
+</script>
+
+<style>
+  .container {
+    max-width: 800px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .order-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  .order-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  .order-item-image img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 10px;
+  }
+  .btn-primary {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  .btn-secondary {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+</style>
+{% endblock %}

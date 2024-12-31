@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Login
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/48/9f/f6/minimalist-style-interior.jpg?w=900&h=500&s=1'); background-size: cover; background-position: center;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTj0r2AGHXhiFRxAEPXSo9Yz75U-nzx5FykQ&s" alt="Cafe Logo" class="logo">
+    </div>
+    <h2 class="mb-4 text-center text-white">Welcome Back</h2>
+    <form action="{{ url_for('login') }}" method="POST">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes mt-3">
+          {% for category, message in messages %}
+            <li class="alert alert-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+</div>
+
+<style>
+  .container {
+    max-width: 4000px;
+    background: rgba(255, 255, 255, 0.7); /* Nền trắng trong suốt */
+    padding: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  .logo {
+    max-width: 100px;
+    height: auto;
+  }
+  h2 {
+    color: #cd853f; /* Màu chữ trắng */
+  }
+  .form-label {
+    font-weight: bold;
+    color: #333;
+  }
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .btn-primary {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #d2691e; /* Màu cà phê */
+    border-color: #d2691e;
+  }
+  .btn-primary:hover {
+    background-color: #a0522d;
+    border-color: #a0522d;
+  }
+  .flashes {
+    list-style-type: none;
+    padding: 0;
+  }
+  .flashes li {
+    margin-bottom: 100px;
+  }
+</style>
+{% endblock %}

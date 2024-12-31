@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .bg {
+        background-image: url('/static/uploads/b1.jpg');
+        height: 100vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+    }
+    .welcome-text {
+        background: rgba(0, 0, 0, 0.7); /* Darker background for better readability */
+        padding: 40px; /* Increased padding for better spacing */
+        border-radius: 15px; /* Slightly more rounded corners */
+        max-width: 80%; /* Limit the width of the text container */
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+    }
+    .hidden {
+        opacity: 0;
+    }
+</style>
+<div class="bg">
+    <div class="welcome-text" id="welcome-text">
+        <h1>Welcome to GAMcoffee</h1>
+        <p>Your favorite place for coffee and more!</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            document.getElementById("welcome-text").classList.add("hidden");
+        }, 2000); // 2 seconds
+    });
+</script>
+{% endblock %}

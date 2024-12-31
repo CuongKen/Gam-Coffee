@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMcoffee</title>
+    <link rel="stylesheet" href="path/to/your/css/styles.css">
+    <style>
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li.right {
+            float: right;
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #111;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('menu') }}">Menu</a></li>
+            <li><a href="{{ url_for('order') }}">Order</a></li>
+            {% if 'username' in session %}
+                <li><a href="{{ url_for('list_menu') }}">List Menu</a></li>
+                <li><a href="{{ url_for('add_menu') }}">Create Menu</a></li>
+                <li class="right"><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li class="right"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="right"><a href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="content">
+        <!-- Content will be injected here -->
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
